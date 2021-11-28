@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>EDIFICIOS LA COSTERA</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+</head>
+
+<body>
+  <header id="header" class="hoc clear">
+    <h1 id="titulo">EDIFICIOS LA COSTERA</h1>
+    <h3 id="explicacion"> Los mejores edificios de La Costera</h3>
+    <br><br><br>
+    <!-- ################################################################################################ -->
+  </header>
+  <!-- ################################################################################################ -->
+  <main class="hoc container clear">
+    <!-- main body -->
+    <!-- ################################################################################################ -->
+    <section id="buscador">
+      <form action="#" method="post">
+        <div class="one_third first">
+          <label for="Localicacion">Población: </label>
+          <input type="text" name="poble" id="poble" value="">
+        </div>
+        <div class="block clear">
+          <div class="radios">
+            <input type="checkbox" id="destacado" name="casatipo" value="destacado"><label>Destacados</label>
+            <input type="checkbox" id="piso" name="casatipo" value="piso"><label>Piso</label>
+            <input type="checkbox" id="casa" name="casatipo" value="casa"><label>Casa</label>
+            <input type="checkbox" id="garaje" name="casatipo" value="garaje"><label>Garaje</label>
+            <input type="checkbox" id="chalet" name="casatipo" value="chalet"><label>Chalet</label><br>
+          </div>
+        </div>
+        <div>
+          <input type="submit" name="submit" id="Buscar" value="Buscar"><br><br><br>
+        </div>
+        <br><br><br><br><br><br>
+      </form>
+    </section>
+    <section id="introblocks">
+      <div id="informacio">
+      </div>
+    </section>
+    <!-- ################################################################################################ -->
+    <!-- / main body -->
+    <div class="clear"></div>
+  </main>
+  <!-- ################################################################################################ -->
+  <script>
+
+    contador = 1;
+    setInterval('canviarFoto()', 5000);
+
+    function ComprobarBusqueda() {
+
+      var poble = document.getElementById("poble").value;
+      llocs = document.getElementsByName('casatipo');
+      var p = false;
+      var piso = false;
+      var chalet = false;
+      var casa = false;
+      var garaje = false;
+      var destacado = false;
+
+      if (poble.length > 0) {
+        p = true;
+      }
+      for (s of llocs) {
+        if (s.checked == true) {
+          if (s.id == "casa") {
+            casa = true;
+          }
+          if (s.id == "piso") {
+            piso = true;
+          }
+          if (s.id == "chalet") {
+            chalet = true;
+          }
+          if (s.id == "garaje") {
+            garaje = true;
+          }
+          if (s.id == "destacado") {
+            destacado = true;
+          }
+        }
+      }
+
+      fetch("https://sofimm.github.io/SofiMM/proba2.json").
+        then((resp) => {
+          return resp.json();
+        }).
+        then((resposta) => {
+          cadena = '<ul class="nospace group">';
+          for (s of resposta) {
+            if (destacado == true) {
+              if (s.importancia == "M") {
+                if (p == false) {
+                  if (garaje == true) {
+                    if (s.tipo == "garaje") {
+                      cadena += '<li class="one_third"><figure><a class="imgover" id="' + s.id + '"><img src="' + s.img + '" alt="' + s.nombre + '" id="' + s.id + '"></a><figcaption><h6 class="heading">' + s.nombre + '</h6><p>' + s.informacio + '</p></figcaption></figure></li>';
+                    }
+                  }
+                  if (chalet == true) {
+                    if (s.tipo == "chalet") {
+                      cadena += '<li class="one_third"><figure><a class="imgover" id="' + s.id + '"><img src="' + s.img + '" alt="' + s.nombre + '" id="' + s.id + '"></a><figcaption><h6 class="heading">' + s.nombre + '</h6><p>' + s.informacio + '</p></figcaption></figure></li>';
+                    }
+                  }
+                  if (casa == true) {
+                    if (s.tipo == "casa") {
+                      cadena += '<li class="one_third"><figure><a class="imgover" id="' + s.id + '"><img src="' + s.img + '" alt="' + s.nombre + '" id="' + s.id + '"></a><figcaption><h6 class="heading">' + s.nombre + '</h6><p>' + s.informacio + '</p></figcaption></figure></li>';
+                    }
+                  }
+                  if (piso == true) {
+                    if (s.tipo == "piso") {
+                      cadena += '<li class="one_third"><figure><a class="imgover" id="' + s.id + '"><img src="' + s.img + '" alt="' + s.nombre + '" id="' + s.id + '"></a><figcaption><h6 class="heading">' + s.nombre + '</h6><p>' + s.informacio + '</p></figcaption></figure></li>';
+                    }
+                  }
+                  if (piso == false && piso == false && casa == false && garaje == false) {
+                    cadena += '<li class="one_third"><figure><a class="imgover" id="' + s.id + '"><img src="' + s.img + '" alt="' + s.nombre + '" id="' + s.id + '"></a><figcaption><h6 class="heading">' + s.nombre + '</h6><p>' + s.informacio + '</p></figcaption></figure></li>';
+                  }
+                } else {
+                  if ((s.poblacio.toLowerCase()).includes(poble.toLowerCase())) {
+                    if (garaje == true) {
+                      if (s.tipo == "garaje") {
+                        cadena += '<li class="one_third"><figure><a class="imgover" id="' + s.id + '"><img src="' + s.img + '" alt="' + s.nombre + '" id="' + s.id + '"></a><figcaption><h6 class="heading">' + s.nombre + '</h6><p>' + s.informacio + '</p></figcaption></figure></li>';
+                      }
+                    }
+                    if (chalet == true) {
+                      if (s.tipo == "chalet") {
+                        cadena += '<li class="one_third"><figure><a class="imgover" id="' + s.id + '"><img src="' + s.img + '" alt="' + s.nombre + '" id="' + s.id + '"></a><figcaption><h6 class="heading">' + s.nombre + '</h6><p>' + s.informacio + '</p></figcaption></figure></li>';
+                      }
+                    }
+                    if (casa == true) {
+                      if (s.tipo == "casa") {
+                        cadena += '<li class="one_third"><figure><a class="imgover" id="' + s.id + '"><img src="' + s.img + '" alt="' + s.nombre + '" id="' + s.id + '"></a><figcaption><h6 class="heading">' + s.nombre + '</h6><p>' + s.informacio + '</p></figcaption></figure></li>';
+                      }
+                    }
+                    if (piso == true) {
+                      if (s.tipo == "piso") {
+                        cadena += '<li class="one_third"><figure><a class="imgover" id="' + s.id + '"><img src="' + s.img + '" alt="' + s.nombre + '" id="' + s.id + '"></a><figcaption><h6 class="heading">' + s.nombre + '</h6><p>' + s.informacio + '</p></figcaption></figure></li>';
+                      }
+                    }
+                    if (piso == false && piso == false && casa == false && garaje == false) {
+                      cadena += '<li class="one_third"><figure><a class="imgover" id="' + s.id + '"><img src="' + s.img + '" alt="' + s.nombre + '" id="' + s.id + '"></a><figcaption><h6 class="heading">' + s.nombre + '</h6><p>' + s.informacio + '</p></figcaption></figure></li>';
+                    }
+                  }
+                }
+              }
+            } else {
+              if (p == false) {
+                if (garaje == true) {
+                  if (s.tipo == "garaje") {
+                    cadena += '<li class="one_third"><figure><a class="imgover" id="' + s.id + '"><img src="' + s.img + '" alt="' + s.nombre + '" id="' + s.id + '"></a><figcaption><h6 class="heading">' + s.nombre + '</h6><p>' + s.informacio + '</p></figcaption></figure></li>';
+                  }
+                }
+                if (chalet == true) {
+                  if (s.tipo == "chalet") {
+                    cadena += '<li class="one_third"><figure><a class="imgover" id="' + s.id + '"><img src="' + s.img + '" alt="' + s.nombre + '" id="' + s.id + '"></a><figcaption><h6 class="heading">' + s.nombre + '</h6><p>' + s.informacio + '</p></figcaption></figure></li>';
+                  }
+                }
+                if (casa == true) {
+                  if (s.tipo == "casa") {
+                    cadena += '<li class="one_third"><figure><a class="imgover" id="' + s.id + '"><img src="' + s.img + '" alt="' + s.nombre + '" id="' + s.id + '"></a><figcaption><h6 class="heading">' + s.nombre + '</h6><p>' + s.informacio + '</p></figcaption></figure></li>';
+                  }
+                }
+                if (piso == true) {
+                  if (s.tipo == "piso") {
+                    cadena += '<li class="one_third"><figure><a class="imgover" id="' + s.id + '"><img src="' + s.img + '" alt="' + s.nombre + '" id="' + s.id + '"></a><figcaption><h6 class="heading">' + s.nombre + '</h6><p>' + s.informacio + '</p></figcaption></figure></li>';
+                  }
+                }
+                if (piso == false && piso == false && casa == false && garaje == false) {
+                  cadena += '<li class="one_third"><figure><a class="imgover" id="' + s.id + '"><img src="' + s.img + '" alt="' + s.nombre + '" id="' + s.id + '"></a><figcaption><h6 class="heading">' + s.nombre + '</h6><p>' + s.informacio + '</p></figcaption></figure></li>';
+                }
+              } else {
+                if ((s.poblacio.toLowerCase()).includes(poble.toLowerCase())) {
+                  if (garaje == true) {
+                    if (s.tipo == "garaje") {
+                      cadena += '<li class="one_third"><figure><a class="imgover" id="' + s.id + '"><img src="' + s.img + '" alt="' + s.nombre + '" id="' + s.id + '"></a><figcaption><h6 class="heading">' + s.nombre + '</h6><p>' + s.informacio + '</p></figcaption></figure></li>';
+                    }
+                  }
+                  if (chalet == true) {
+                    if (s.tipo == "chalet") {
+                      cadena += '<li class="one_third"><figure><a class="imgover" id="' + s.id + '"><img src="' + s.img + '" alt="' + s.nombre + '" id="' + s.id + '"></a><figcaption><h6 class="heading">' + s.nombre + '</h6><p>' + s.informacio + '</p></figcaption></figure></li>';
+                    }
+                  }
+                  if (casa == true) {
+                    if (s.tipo == "casa") {
+                      cadena += '<li class="one_third"><figure><a class="imgover" id="' + s.id + '"><img src="' + s.img + '" alt="' + s.nombre + '" id="' + s.id + '"></a><figcaption><h6 class="heading">' + s.nombre + '</h6><p>' + s.informacio + '</p></figcaption></figure></li>';
+                    }
+                  }
+                  if (piso == true) {
+                    if (s.tipo == "piso") {
+                      cadena += '<li class="one_third"><figure><a class="imgover" id="' + s.id + '"><img src="' + s.img + '" alt="' + s.nombre + '" id="' + s.id + '"></a><figcaption><h6 class="heading">' + s.nombre + '</h6><p>' + s.informacio + '</p></figcaption></figure></li>';
+                    }
+                  }
+                  if (piso == false && piso == false && casa == false && garaje == false) {
+                    cadena += '<li class="one_third"><figure><a class="imgover" id="' + s.id + '"><img src="' + s.img + '" alt="' + s.nombre + '" id="' + s.id + '"></a><figcaption><h6 class="heading">' + s.nombre + '</h6><p>' + s.informacio + '</p></figcaption></figure></li>';
+                  }
+                }
+              }
+            }
+          }
+          document.getElementById("informacio").innerHTML = cadena + "</ul>";
+        }).
+        catch(
+          console.log("Hi ha hagut un error")
+        );
+    }
+
+    window.onload = () => {
+      fetch("https://sofimm.github.io/SofiMM/proba2.json").
+        then((resp) => {
+          return resp.json();
+        }).
+        then((resposta) => {
+          cadena = '<ul class="nospace group">';
+          for (s of resposta) {
+            if (s.importancia == "M") {
+              cadena += '<li class="one_third"><figure><a class="imgover" id="' + s.id + '"><img src="' + s.img + '" alt="' + s.nombre + '" id="' + s.id + '"></a><figcaption><h6 class="heading">' + s.nombre + '</h6><p>' + s.informacio + '</p></figcaption></figure></li>';
+            }
+          }
+          for (s of resposta) {
+            if (s.importancia == "B") {
+              cadena += '<li class="one_third"><figure><a class="imgover" id="' + s.id + '"><img src="' + s.img + '" alt="' + s.nombre + '" id="' + s.id + '"></a><figcaption><h6 class="heading">' + s.nombre + '</h6><p>' + s.informacio + '</p></figcaption></figure></li>';
+            }
+          }
+          document.getElementById("informacio").innerHTML += cadena + "</ul>";
+        }).
+        catch(
+          console.log("Hi ha hagut un error")
+        );
+    }
+
+    function MostrarInfo(idlloc) {
+
+      document.getElementById("buscador").style.display = "none";
+      cadena = '<div class="wrapper row3"><main class="hoc container clear"><div class="content">';
+      endcadena = "</div></main></div>";
+
+      fetch("https://sofimm.github.io/SofiMM/proba2.json").
+        then((resp) => {
+          return resp.json();
+        }).
+        then((resposta) => {
+          for (s of resposta) {
+            if (s.id == idlloc) {
+              cadena += "<h2>" + s.nombre + "</h2>";
+              if (s.tipo != "garaje") {
+                cadena += '  <i class="fa-bath fa-fw fas"></i>  ' + s.banyo + '  <i class="fa-bed fa-fw fas"></i>  ' + s.habitaciones + '  <i class="fa-ruler fa-fw fas"></i>  ' + s.m2 + "m2<br/>";
+              } else {
+                cadena += '  <i class="fa-ruler fa-fw fas"></i>  ' + s.m2 + "m2<br/>";
+              }
+              cadena += '  <i class="fa-home fa-fw fas"></i>  ' + s.poblacio;
+              cadena += "<p>" + s.informacio + "</p>";
+              cadena += "<strong>Preu: </strong>" + s.precio + "€<br><br><br>";
+              cadena += "<img src='" + s.img + "' id='imagenes' alt='" + s.id + "'><br><br><br>";
+              cadena += '<button id="' + s.id + '">Estoy interesad@</button>';
+
+            }
+          }
+          document.getElementById("informacio").innerHTML = cadena + endcadena;
+        }).
+        catch(
+          console.log("Hi ha hagut un error")
+        );
+    }
+    function CrearForm(idlloc) {
+      fetch("https://sofimm.github.io/SofiMM/proba2.json").
+        then((resp) => {
+          return resp.json();
+        }).
+        then((resposta) => {
+          for (s of resposta) {
+            if (s.id == idlloc) {
+              Casa = s.nombre;
+              cadena = '<form action="#" method="post"><div class="one_third first"><label for="name">Name <span>*</span></label><input type="text" name="name" id="name" value="" size="22" required>' +
+                '<div class="radios"><input type="checkbox" id="piso" name="casatipo" value="piso"><label>Piso</label><input type="checkbox" id="casa" name="casatipo" value="casa"><label>Casa</label><input type="checkbox" id="garaje" name="casatipo" value="garaje"><label>Garaje</label><input type="checkbox" id="chalet" name="casatipo" value="chalet"><label>Chalet</label><br></div>' +
+                '<div class="block clear"><label for="comment">Your Comment</label><textarea name="comment" id="comment" cols="25" rows="10">Estoy interesad@ en la vivienda ' + Casa + '</textarea>' +
+                '</div ><div><input type="submit" id="enviar" name="submit" disabled="disabled" value="Enviar"></div></form>';
+              document.getElementById("informacio").innerHTML = cadena;
+            }
+          }
+        }).
+        catch(
+          console.log("Hi ha hagut un error")
+        );
+    }
+
+    function ComprobarFormulari() {
+      boton = document.getElementById("enviar");
+      boton.disabled = true;
+
+      nom = document.getElementById("name");
+      coment = document.getElementById("comment");
+      checks = document.getElementsByName("casatipo");
+      polsats = 0;
+      for (s of checks) {
+        if (s.checked == true) {
+          polsats++;
+        }
+      }
+      if (polsats >= 2 && nom.value.length > 0 && coment.value.length > 0) {
+        boton.disabled = false;
+      }
+    }
+
+    function canviarFoto() {
+      fto = document.getElementById("imagenes");
+      contador++;
+      fetch("https://sofimm.github.io/SofiMM/proba2.json").
+        then((resp) => {
+          return resp.json();
+        }).
+        then((resposta) => {
+          for (s of resposta) {
+            if (s.id == fto.alt) {
+              if (contador > s.imagenes.length) {
+                contador = 1;
+              }
+              var cadena1 = s.imagenes[contador - 1];
+              foto = cadena1.slice(0, -5);
+              foto += contador + ".png";
+              fto.src = foto;
+            }
+          }
+        }).
+        catch(
+          console.log("Hi ha hagut un error")
+        );
+    }
+
+    document.addEventListener("click", function (evento) {
+      if (evento.target.tagName == "A") {
+        id = evento.target.id;
+        MostrarInfo(id);
+      }
+    });
+
+    document.addEventListener("click", function (evento) {
+      if (evento.target.tagName == "BUTTON") {
+        CrearForm(evento.target.id);
+      }
+    });
+
+    document.addEventListener("change", function (evento) {
+      ComprobarFormulari();
+    });
+
+    document.addEventListener("click", function (evento) {
+      if (evento.target.id == "enviar") {
+        event.preventDefault();
+      }
+    });
+
+    document.addEventListener("click", function (evento) {
+      if (evento.target.id == "Buscar") {
+        event.preventDefault();
+        ComprobarBusqueda();
+      }
+    });
+  </script>
+</body>
+
+</html>
